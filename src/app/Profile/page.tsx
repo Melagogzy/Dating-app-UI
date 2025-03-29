@@ -5,11 +5,11 @@ import Image from "next/image";
 import { Pencil, Camera, Bike, UtensilsCrossed, Music, Plane, Paintbrush, BookOpen, Ruler, User, Briefcase, MapPin, Weight, Cross, Sun, CameraIcon, Heart, Globe, Star } from "lucide-react";
 
 const PhotoUploader = () => {
-  const fileInputRefs = useRef(Array.from({ length: 4 }, () => null));
+  const fileInputRefs = useRef<(HTMLInputElement | null)[]>(Array(4).fill(null));
 
-  const handleUploadClick = useCallback((index) => {
+  const handleUploadClick = useCallback((index: number) => {
     if (fileInputRefs.current[index]) {
-      fileInputRefs.current[index].click();
+      fileInputRefs.current[index]?.click();
     }
   }, []);
 
@@ -24,11 +24,14 @@ const PhotoUploader = () => {
           <span className="text-xs sm:text-sm mb-1">Add Photo</span>
           <Camera size={18} className="sm:w-6 sm:h-6" />
           <input
-            type="file"
-            ref={(el) => (fileInputRefs.current[index] = el)}
+            type="file"ref={(el: HTMLInputElement | null) => {
+              if (el) {
+                fileInputRefs.current[index] = el;
+              }
+            }}
             className="hidden"
             accept="image/*"
-            onChange={(e) => console.log(`Selected file: ${e.target.files[0]?.name}`)}
+            onChange={(e) => console.log(`Selected file: ${e.target.files?.[0]?.name}`)}
           />
         </button>
       ))}
