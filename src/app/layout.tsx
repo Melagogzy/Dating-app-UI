@@ -29,10 +29,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-50`}>
-       
         <Header />
         
-        <div className="md:hidden flex flex-col relative"> 
+        <div className="md:hidden">
           <Navbar mobileMode={true} />
           <main className="flex-1 p-4">
             {children}
@@ -40,12 +39,11 @@ export default function RootLayout({
         </div>
         
         <div className="hidden md:flex min-h-[calc(100vh-4rem)]">
-        
-          <div className="w-50" style={{marginLeft:"60px",marginTop:"20px"}}>
+          <div className="w-64 fixed h-full" style={{ marginTop: "20px" }}>
             <Navbar mobileMode={false} />
           </div>
           
-          <div className="flex-1 overflow-y-auto">
+          <div className="flex-1 ml-64 overflow-y-auto">
             <main className="p-6 max-w-7xl mx-auto w-full">
               {children}
             </main>

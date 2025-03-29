@@ -3,15 +3,22 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import { Bell, Menu, X, LayoutDashboard } from 'lucide-react';
 
-const Header = ({ onNavToggle }) => {
+interface HeaderProps {
+  onNavToggle?: () => void;
+}
+
+const Header = ({ onNavToggle }: HeaderProps) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
 
   return (
     <>
       <nav className="flex items-center justify-between p-2 md:p-4 bg-white shadow-md relative">
-     
+       
         <div className="flex items-center gap-2 md:ml-8 border-r pr-2 md:pr-4 min-w-[120px] md:min-w-[200px]">
-          
           {onNavToggle && (
             <button 
               onClick={onNavToggle}
@@ -28,6 +35,7 @@ const Header = ({ onNavToggle }) => {
             width={80} 
             height={80} 
             className="w-8 h-8 md:w-10 md:h-10"
+            priority
           />
           <span className="text-sm md:text-lg font-semibold hidden md:block">Chuby</span>
         </div>
@@ -44,9 +52,8 @@ const Header = ({ onNavToggle }) => {
         </div>
 
         <div className="flex items-center gap-2 md:hidden">
-         
           <button 
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            onClick={toggleMobileMenu}
             className="p-2"
             aria-label="Toggle menu"
           >
@@ -62,6 +69,7 @@ const Header = ({ onNavToggle }) => {
             width={40}
             height={40}
             className="rounded-full"
+            priority
           />
         </div>
       </nav>
@@ -69,7 +77,7 @@ const Header = ({ onNavToggle }) => {
       {isMobileMenuOpen && (
         <div className="md:hidden bg-white shadow-lg py-4 px-4 w-full z-10 border-t">
           <div className="flex flex-col space-y-4">
-           
+          
             <div className="flex items-center gap-4 pb-4 border-b">
               <Image
                 src="/profile.jpg"
@@ -77,6 +85,7 @@ const Header = ({ onNavToggle }) => {
                 width={48}
                 height={48}
                 className="rounded-full"
+                priority
               />
               <div>
                 <p className="font-semibold">User Name</p>
@@ -97,7 +106,10 @@ const Header = ({ onNavToggle }) => {
               />
             </div>
 
-            <button className="w-full py-2 border-2 border-gray-700 rounded-full text-sm font-medium mt-2">
+            <button 
+              className="w-full py-2 border-2 border-gray-700 rounded-full text-sm font-medium mt-2"
+              onClick={toggleMobileMenu}
+            >
               Filter
             </button>
           </div>
